@@ -12,6 +12,7 @@ class MainActivity : AppCompatActivity() {
 
         val txArriba: TextView= findViewById(R.id.arriba)
         val txAbajo: TextView= findViewById(R.id.abajo)
+        val txSim: TextView= findViewById(R.id.simbolo)
         val b1:Button=findViewById(R.id.b1)
         val b2:Button=findViewById(R.id.b2)
         val b3:Button=findViewById(R.id.b3)
@@ -28,10 +29,11 @@ class MainActivity : AppCompatActivity() {
         val btimes:Button=findViewById(R.id.btimes)
         val bc:Button=findViewById(R.id.bc)
         val bequal:Button=findViewById(R.id.bequals)
-
+        var nuevo=true
         fun limpia(){
             txArriba.text=""
             txAbajo.text="0"
+            txSim.text=""
         }
         fun cadena(numero:Int){
             var aux:String=txAbajo.text.toString()
@@ -40,8 +42,54 @@ class MainActivity : AppCompatActivity() {
             }
             aux=aux+""+numero
             txAbajo.text = aux
+            if(txSim.text==""){
+                txArriba.text=""
+            }
         }
-        
+        fun calcula(sim:String){
+            if(txArriba.text==""){
+                txArriba.text=txAbajo.text
+                nuevo=false
+            }else if (!nuevo){
+            var aux:Int=txArriba.text.toString().toInt()
+                var aux2:Int=txAbajo.text.toString().toInt()
+                when(txSim.text) {
+                    "+"->aux+=aux2
+                    "-"->aux-=aux2
+                    "*"->aux*=aux2
+                    "/"->aux/=aux2
+                }
+                txArriba.text=""+aux
+            }else
+            if(nuevo){
+                txArriba.text=""
+            }
+            txAbajo.text="0"
+            txSim.text=sim
+        }
+        bc.setOnClickListener{
+            limpia()
+        }
+
+        bequal.setOnClickListener{
+            calcula("")
+            nuevo=true
+        }
+
+        badd.setOnClickListener{
+            calcula("+")
+
+        }
+        bsus.setOnClickListener{
+            calcula("-")
+        }
+        bdiv.setOnClickListener{
+            calcula("/")
+        }
+        btimes.setOnClickListener{
+            calcula("*")
+        }
+
         b1.setOnClickListener{
             cadena(1)
         }
